@@ -30,3 +30,27 @@ class ChatBotReply(BaseMessage):
 
     def __repr__(self):
         return f"ChatBotReply {str(self)}"
+
+
+class SettingsAdviceReply(ChatBotReply):
+    path: str
+
+    def __init__(self, msg: str, path: str):
+        super().__init__(msg)
+        self.path = path
+
+    def serialize(self): 
+        return '{ "chatBotReply": { "text": ' \
+                + json.dumps(self.message) \
+                + ', "settingsResponse": {"path": ' \
+                + json.dumps(self.path) \
+                + '}} }'
+
+    @classmethod
+    def deserialize(cls, encoded: str):
+        obj = super().deserialize(encoded)
+
+        try:
+            return cls(obj.message, json.loads(encoded)["chatBotReply"]["settingsResponse"]["path"])
+        except KeyError:
+            raise TypeError

@@ -1,6 +1,6 @@
 from typing import Optional
 from openai import OpenAI
-from messages import UserMessage, deserialize
+from messages import deserialize
 from messages.base_message import BaseMessage
 
 class Thread:

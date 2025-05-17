@@ -2,11 +2,11 @@ from typing import List
 
 from openai.types.beta.threads import Message
 
-from .chat_bot_reply import ChatBotReply
+from .chat_bot_reply import ChatBotReply, SettingsAdviceReply
 from .user_message import UserMessage
 from .base_message import BaseMessage
 
-MESSAGE_TYPES: List[type[BaseMessage]] = [ChatBotReply, UserMessage]
+MESSAGE_TYPES: List[type[BaseMessage]] = [SettingsAdviceReply, ChatBotReply, UserMessage]
 
 def deserialize(msg: Message):
     relevant_types = (m for m in MESSAGE_TYPES if m.ROLE == msg.role)
@@ -16,6 +16,5 @@ def deserialize(msg: Message):
             return t.deserialize(msg.content[0].text.value)
         except TypeError:
             continue
-
 
     raise TypeError("Found no match for given type")
