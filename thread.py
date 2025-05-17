@@ -28,12 +28,15 @@ class Thread:
         if run.status != "completed":
             return None
 
-        response_message = next(iter(self._client.beta.threads.messages.list(self.id)))
+        responses = iter(self._client.beta.threads.messages.list(self.id))
+        response_message = next(responses)
+        question = next(responses)
 
         try:
             return deserialize(response_message)
         except TypeError:
             self._client.beta.threads.messages.delete(response_message.id, thread_id=self.id)
+            self._client.beta.threads.messages.delete(question.id, thread_id=self.id)
             return None
 
 
