@@ -1,0 +1,7 @@
+services:
+  assistant:
+    image: ghcr.io/team-evian-fiicode25/assistant:latest
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    ports:
+    - '8888:8000'
