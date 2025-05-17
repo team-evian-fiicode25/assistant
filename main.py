@@ -1,3 +1,4 @@
+from waitress import serve
 from dotenv import load_dotenv
 from flask import Flask, abort, request
 import flask
@@ -40,7 +41,6 @@ def send_message() -> flask.Response:
         print(response.serialize())
         res = flask.Response(response.serialize(), status=200, mimetype="application/json")
 
-
         return res
 
     abort(418)
@@ -72,4 +72,4 @@ def messages() -> flask.Response:
 if __name__ == "__main__":
     load_dotenv()
 
-    app.run(port=8000)
+    serve(app, host="0.0.0.0", port="8000")
