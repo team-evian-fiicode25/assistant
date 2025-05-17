@@ -46,7 +46,7 @@ def send_message() -> flask.Response:
     abort(418)
 
 
-@app.route("/messages")
+@app.route("/messages", methods=["POST"])
 def messages() -> flask.Response:
     body = request.get_json()
 
